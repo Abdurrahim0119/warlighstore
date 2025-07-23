@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Pre Order |⚡ WARLIGHT</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Konfigurasi Tailwind untuk font Inter dan warna kustom -->
+  <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['Orbitron', 'sans-serif'], // Menggunakan Orbitron sesuai tema Anda
+                },
+                colors: {
+                    primary: '#FF6347', // Warna primer dari tema Anda
+                    electric: '#00FFFF', // Warna electric dari tema Anda
+                    dark: '#0F0F0F', // Background gelap dari tema Anda
+                    soft: '#E0E0E0', // Warna teks dari tema Anda
+                }
+            }
+        }
+    }
+  </script>
+
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <!-- Font Orbitron (sudah ada di kode Anda) -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+
+  <!-- Styles for the hamburger icon animation (dipindahkan ke sini dari header.html) -->
+  <style>
+    body {
+      background-color: #0F0F0F;
+      color: #E0E0E0;
+      font-family: 'Orbitron', sans-serif;
+    }
+    #hamburger-button .line {
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    #hamburger-button.is-active .top {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    #hamburger-button.is-active .middle {
+      opacity: 0;
+    }
+
+    #hamburger-button.is-active .bottom {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+    /* Mobile menu specific styles */
+    .mobile-menu {
+        transition: transform 0.3s ease-out;
+        transform: translateX(100%); /* Start off-screen */
+    }
+    .mobile-menu.active {
+        transform: translateX(0); /* Slide in */
+    }
+  </style>
+</head>
+<body class="bg-dark">
+
+  <!-- Placeholder untuk Header:
+       Elemen div ini akan diisi secara dinamis dengan konten dari header.html.
+       Ini memungkinkan navbar dimuat secara terpisah dan digunakan kembali di seluruh situs. -->
+  <div id="header-placeholder"></div>
+
+  <!-- Form Container -->
+  <section class="pt-32 pb-20 px-6 max-w-xl mx-auto" data-aos="fade-up">
+    <h2 class="text-center text-3xl text-primary font-bold mb-6">Form Pre Order</h2>
+
+    <form id="preorder-form" action="#" method="POST" class="bg-white/5 p-6 rounded-xl shadow-md backdrop-blur">
+      <input type="hidden" name="produk" id="produkField" />
+      <input type="hidden" name="varian" id="varianField" />
+      <input type="hidden" name="harga" id="hargaField" />
+
+      <div class="mb-4">
+        <label class="block mb-2 text-sm font-semibold">Produk yang Dipilih</label>
+        <input type="text" id="displayProduk" class="w-full p-3 rounded bg-white text-black cursor-not-allowed" readonly />
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2 text-sm font-semibold">Varian yang Dipilih</label>
+        <input type="text" id="displayVarian" class="w-full p-3 rounded bg-white text-black cursor-not-allowed" readonly />
+      </div>
+      <div class="mb-4">
+        <label class="block mb-2 text-sm font-semibold">Harga Produk</label>
+        <input type="text" id="displayHarga" class="w-full p-3 rounded bg-white text-black cursor-not-allowed" readonly />
+      </div>
+
+      <div class="mb-4">
+        <label class="block mb-2 text-sm font-semibold">Nama Lengkap</label>
+        <input type="text" name="nama" id="namaField" required class="w-full p-3 rounded bg-white text-black" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block mb-2 text-sm font-semibold">Email</label>
+        <input type="email" name="email" id="emailField" required class="w-full p-3 rounded bg-white text-black" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block mb-2 text-sm font-semibold">Nomor WhatsApp</label>
+        <input type="tel" name="wa" id="waField" required class="w-full p-3 rounded bg-white text-black" />
+      </div>
+
+      <div class="mb-4">
+        <label class="block mb-2 text-sm font-semibold">Alamat Lengkap</label>
+        <textarea name="alamat" id="alamatField" required rows="3" class="w-full p-3 rounded bg-white text-black"></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label class="block mb-2 text-sm font-semibold">Catatan Tambahan</label>
+        <textarea name="catatan" id="catatanField" rows="2" class="w-full p-3 rounded bg-white text-black"></textarea>
+      </div>
+
+      <button type="submit"
+        class="w-full py-3 bg-primary hover:bg-electric text-white font-bold rounded-full transition duration-300">
+        Kirim Pre Order
+      </button>
+    </form>
+  </section>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init();
+  </script>
+
+  <script>
+    // Nomor WhatsApp tujuan (ganti dengan nomor Anda, format: kode negara tanpa + atau spasi, contoh: 628123456789)
+    const WHATSAPP_NUMBER = '6285280061419'; 
+
+    // Ambil data produk, varian, dan harga dari URL
+    const params = new URLSearchParams(window.location.search);
+    const produk = params.get("produk") || "Produk Tidak Diketahui";
+    const varian = params.get("varian") || "Varian Tidak Diketahui";
+    const harga = params.get("harga") || "Harga Tidak Diketahui";
+
+    // Isi field tersembunyi untuk pengiriman formulir
+    document.getElementById("produkField").value = produk;
+    document.getElementById("varianField").value = varian;
+    document.getElementById("hargaField").value = harga;
+
+    // Tampilkan data di field yang hanya bisa dibaca (readonly)
+    document.getElementById("displayProduk").value = produk;
+    document.getElementById("displayVarian").value = varian;
+    document.getElementById("displayHarga").value = harga;
+
+    // Fungsi untuk menginisialisasi fungsionalitas hamburger menu
+    function initializeHamburgerMenu() {
+      const hamburgerButton = document.getElementById('hamburger-button');
+      const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+      const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+
+      if (hamburgerButton && mobileMenuOverlay && closeMobileMenuButton) {
+        hamburgerButton.addEventListener('click', () => {
+          mobileMenuOverlay.classList.add('active');
+          hamburgerButton.classList.add('is-active'); // Tambahkan kelas untuk menganimasikan ikon hamburger
+        });
+
+        closeMobileMenuButton.addEventListener('click', () => {
+          mobileMenuOverlay.classList.remove('active');
+          hamburgerButton.classList.remove('is-active'); // Hapus kelas untuk mengembalikan ikon hamburger
+        });
+
+        // Tutup menu dan kembalikan ikon hamburger saat tautan diklik
+        mobileMenuOverlay.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            mobileMenuOverlay.classList.remove('active');
+            hamburgerButton.classList.remove('is-active'); // Kembalikan ikon hamburger
+          });
+        });
+      }
+    }
+
+    // Fungsi untuk memuat header.html secara dinamis.
+    function loadHeader() {
+      fetch('header.html') // Mengambil konten header.html dari server.
+        .then(response => response.text()) // Mengurai respons sebagai teks HTML.
+        .then(html => {
+          document.getElementById('header-placeholder').innerHTML = html; // Menyisipkan HTML ke placeholder.
+          initializeHamburgerMenu(); // Panggil fungsi inisialisasi setelah header dimuat
+        })
+        .catch(error => {
+          console.error('Error loading header:', error); // Menangani error jika gagal memuat header.
+          // Tampilkan pesan error di UI jika header gagal dimuat
+          const headerPlaceholder = document.getElementById('header-placeholder');
+          if (headerPlaceholder) {
+            headerPlaceholder.innerHTML = '<p class="text-center text-red-500">Gagal memuat navigasi.</p>';
+          }
+        });
+    }
+
+    // Memuat header ketika DOM sudah sepenuhnya dimuat.
+    document.addEventListener('DOMContentLoaded', loadHeader);
+
+    // Menangani pengiriman formulir untuk mengirim ke WhatsApp
+    document.getElementById("preorder-form").addEventListener("submit", function(e) {
+      e.preventDefault(); // Mencegah pengiriman formulir default
+
+      // Ambil data dari formulir
+      const nama = document.getElementById("namaField").value;
+      const email = document.getElementById("emailField").value;
+      const wa = document.getElementById("waField").value;
+      const alamat = document.getElementById("alamatField").value;
+      const catatan = document.getElementById("catatanField").value;
+
+      // Buat pesan WhatsApp
+      let message = `Halo, saya ingin melakukan Pre Order produk:\n\n`;
+      message += `*Produk:* ${produk}\n`;
+      message += `*Varian:* ${varian}\n`;
+      message += `*Harga:* ${harga}\n\n`;
+      message += `*Detail Pemesan:*\n`;
+      message += `Nama: ${nama}\n`;
+      message += `Email: ${email}\n`;
+      message += `No. WhatsApp: ${wa}\n`;
+      message += `Alamat: ${alamat}\n`;
+      if (catatan) {
+        message += `Catatan Tambahan: ${catatan}\n`;
+      }
+      message += `\nMohon konfirmasi pesanan saya. Terima kasih!`;
+
+      // Encode pesan untuk URL
+      const encodedMessage = encodeURIComponent(message);
+
+      // Buat URL WhatsApp
+      const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+      // Buka link WhatsApp di tab baru
+      window.open(whatsappURL, '_blank');
+
+      // Opsional: Reset formulir setelah pengiriman
+      this.reset();
+    });
+  </script>
+</body>
+</html>

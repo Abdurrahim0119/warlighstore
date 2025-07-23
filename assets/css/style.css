@@ -1,0 +1,93 @@
+body {
+      background-color: #0F0F0F;
+      color: #E0E0E0;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* Custom scrollbar for image thumbnails */
+    .thumbnail-scroll-container::-webkit-scrollbar {
+        height: 6px;
+    }
+    .thumbnail-scroll-container::-webkit-scrollbar-track {
+        background: #333;
+        border-radius: 10px;
+    }
+    .thumbnail-scroll-container::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+    .thumbnail-scroll-container::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    /* Style for image slider navigation buttons */
+    .slider-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        padding: 8px 12px;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 10;
+        font-size: 1.5rem;
+        transition: background-color 0.3s ease;
+    }
+    .slider-button.left {
+        left: 10px;
+    }
+    .slider-button.right {
+        right: 10px;
+    }
+    /* Hide slider buttons if only one image or variant image is active */
+    .slider-button.hidden {
+        display: none;
+    }
+    /* Mobile menu specific styles */
+.mobile-menu {
+    transition: transform 0.3s ease-out;
+    transform: translateX(100%); /* Start off-screen */
+}
+.mobile-menu.active {
+    transform: translateX(0); /* Slide in */
+}
+
+/* Styles for the hamburger icon animation */
+#hamburger-button .line {
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+#hamburger-button.is-active .top {
+  transform: translateY(6px) rotate(45deg);
+}
+
+#hamburger-button.is-active .middle {
+  opacity: 0;
+}
+
+#hamburger-button.is-active .bottom {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+    /* Styles for the hamburger icon animation */
+    #hamburger-button .line {
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    #hamburger-button.is-active .top {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    #hamburger-button.is-active .middle {
+      opacity: 0;
+    }
+
+    #hamburger-button.is-active .bottom {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+    /* style form preoder */
+        input, textarea {
+      color: black;
+    }

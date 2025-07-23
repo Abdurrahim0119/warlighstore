@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Katalog Produk |⚡ WARLIGHT Store</title>
+
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  </head>
+  <body class="bg-dark">
+    <!-- Placeholder untuk Header:
+         Elemen div ini akan diisi secara dinamis dengan konten dari header.html.
+         Ini memungkinkan navbar dimuat secara terpisah dan digunakan kembali di seluruh situs. -->
+    <div id="header-placeholder"></div>
+
+    <!-- Konten Produk -->
+    <main class="pt-28 px-6 max-w-7xl mx-auto">
+      <!-- Tombol Back -->
+      <div
+        id="btn-back-wrapper"
+        class="fixed top-20 left-6 z-50 transition-all duration-500 ease-in-out opacity-100 translate-x-0"
+      >
+        <a
+          href="index.html"
+          class="group relative inline-flex items-center gap-1 px-5 py-1 rounded-xl text-dark font-bold bg-electric hover:bg-primary transition-all duration-300 overflow-hidden shadow-xl hover:shadow-primary"
+        >
+          <span
+            class="absolute inset-0 w-full h-full bg-electric opacity-10 group-hover:opacity-0 transition-all duration-300 rounded-xl"
+          ></span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 group-hover:-translate-x-1 transition-all duration-300"
+            fill="none"
+            viewBox="0 0 19 19"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          <span class="relative z-10 group-hover:text-white transition"
+            >Back</span
+          >
+        </a>
+      </div>
+
+      <h2
+        class="text-3xl md:text-4xl text-center mb-10 mt-8 text-primary"
+        data-aos="fade-down"
+      >
+        Katalog Produk
+      </h2>
+      <div
+        id="produk-list"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+      ></div>
+    </main>
+
+    <!-- Script -->
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Orbitron", "sans-serif"], // Menggunakan font Orbitron sebagai font sans-serif default.
+            },
+            colors: {
+              primary: "#FF6347", // Warna primer untuk elemen utama dan penekanan.
+              electric: "#00FFFF", // Warna sekunder, sering digunakan untuk efek "electric" atau highlight.
+              dark: "#0F0F0F", // Warna latar belakang gelap utama.
+              soft: "#E0E0E0", // Warna teks yang lembut untuk kontras yang baik pada latar belakang gelap.
+            },
+          },
+        },
+      };
+      AOS.init();
+    </script>
+    <script>
+      fetch("data/produk.json")
+        .then((res) => res.json())
+        .then((data) => {
+          const container = document.getElementById("produk-list");
+          data.forEach((produk, index) => {
+            const card = document.createElement("div");
+            card.className =
+              "bg-white bg-opacity-5 rounded-xl p-4 border border-white/10 hover:border-primary hover:scale-105 transition-all";
+            card.setAttribute("data-aos", "fade-up");
+            card.setAttribute("data-aos-delay", index * 100);
+
+            card.innerHTML = `
+            <img src="assets/images/${produk.gambar}" alt="${produk.nama}" class="w-full h-48 object-cover rounded-md mb-4">
+            <h3 class="text-xl font-bold text-primary mb-2">${produk.nama}</h3>
+            <p class="text-sm text-soft mb-3">${produk.deskripsi}</p>
+            <div class="flex justify-between items-center">
+              <span class="text-electric font-semibold">${produk.harga}</span>
+              <a href="${produk.link}" class="text-sm text-white hover:text-electric underline">Lihat Detail</a>
+            </div>
+          `;
+            container.appendChild(card);
+          });
+        });
+
+      // Fungsi untuk menginisialisasi fungsionalitas hamburger menu
+      function initializeHamburgerMenu() {
+        const hamburgerButton = document.getElementById("hamburger-button");
+        const mobileMenuOverlay = document.getElementById(
+          "mobile-menu-overlay"
+        );
+        const closeMobileMenuButton =
+          document.getElementById("close-mobile-menu");
+
+        if (hamburgerButton && mobileMenuOverlay && closeMobileMenuButton) {
+          hamburgerButton.addEventListener("click", () => {
+            mobileMenuOverlay.classList.add("active");
+            hamburgerButton.classList.add("is-active"); // Tambahkan kelas untuk menganimasikan ikon hamburger
+          });
+
+          closeMobileMenuButton.addEventListener("click", () => {
+            mobileMenuOverlay.classList.remove("active");
+            hamburgerButton.classList.remove("is-active"); // Hapus kelas untuk mengembalikan ikon hamburger
+          });
+
+          // Tutup menu dan kembalikan ikon hamburger saat tautan diklik
+          mobileMenuOverlay.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+              mobileMenuOverlay.classList.remove("active");
+              hamburgerButton.classList.remove("is-active"); // Kembalikan ikon hamburger
+            });
+          });
+        }
+      }
+
+      // Fungsi untuk memuat header.html secara dinamis.
+      function loadHeader() {
+        fetch("header.html") // Mengambil konten header.html dari server.
+          .then((response) => response.text()) // Mengurai respons sebagai teks HTML.
+          .then((html) => {
+            document.getElementById("header-placeholder").innerHTML = html; // Menyisipkan HTML ke placeholder.
+            initializeHamburgerMenu(); // Panggil fungsi inisialisasi setelah header dimuat
+          })
+          .catch((error) => {
+            console.error("Error loading header:", error); // Menangani error jika gagal memuat header.
+            // Tampilkan pesan error di UI jika header gagal dimuat
+            const headerPlaceholder =
+              document.getElementById("header-placeholder");
+            if (headerPlaceholder) {
+              headerPlaceholder.innerHTML = 
+                '<p class="text-center text-red-500">Gagal memuat navigasi.</p>';
+            }
+          });
+      }
+
+      // Memuat header ketika DOM sudah sepenuhnya dimuat.
+      document.addEventListener("DOMContentLoaded", loadHeader);
+      // Scrolling Buton Back
+      const btnBack = document.getElementById("btn-back-wrapper");
+      let scrollTimeout;
+
+      window.addEventListener("scroll", () => {
+        btnBack.classList.remove("opacity-100", "translate-x-0");
+        btnBack.classList.add("opacity-0", "-translate-x-10");
+
+        // Reset timeout jika scroll terus-menerus
+        clearTimeout(scrollTimeout);
+
+        // Setelah 1.2 detik tanpa scroll: fade in & slide-right
+        scrollTimeout = setTimeout(() => {
+          btnBack.classList.remove("opacity-0", "-translate-x-10");
+          btnBack.classList.add("opacity-100", "translate-x-0");
+        }, 600);
+      });
+    </script>
+  </body>
+</html>

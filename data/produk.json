@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "nama": "Paket Instalasi Double Biled Projector",
+    "gambar": "double-biled.png",
+    "deskripsi": "Kami menyediakan layanan profesional instalasi Projector Double Biled untuk berbagai jenis motor seperti Vario, Aerox, NMAX, PCX, ADV, dan lainnya. Tersedia berbagai paket yang dapat Anda pilih melalui sistem Pre-Order. Kami juga menerima konsultasi untuk kebutuhan tambahan seperti pemasangan lampu D2 dan fitur custom lainnya. Mohon diperhatikan bahwa harga yang tertera merupakan estimasi awal — harga akhir dapat disesuaikan berdasarkan spesifikasi dan permintaan dari pelanggan. Untuk informasi lebih lanjut atau konsultasi, silakan hubungi kami melalui WhatsApp.",
+    "harga": "Rp 1.500.000 - 2.800.000",
+    "link": "detail.html?id=1",
+    "variants": [
+      {
+        "name": "Paket Double STD",
+        "price": "Rp 1.500.000",
+        "description": "Paket Setandar ini .",
+        "images": "double-std.jpeg"
+      },
+      {
+
+
+
+        "name": "Paket Double+D2",
+        "price": "Rp 2.800.000",
+        "description": "Paket Double Biled dengan tambahan D2 Bisa Request Ingin Menggunakan D2 Menggunakan Merk Apada Dan bisa Request Biled ingin mengguakan apa Warning!! Harga hanya Untuk Estimaasi Boleh melakukan PreOrder dan lakukan Konsultasi Oleh Admin.",
+        "images": "double-d2.jpeg"
+      },
+      {
+        "name": "Paket Double Full RGB",
+        "price": "Rp 1.500.000",
+        "description": "Paket standar instalasi Double Biled yang mencakup pemasangan projector berkualitas tinggi tanpa tambahan modul atau aksesoris lain. Cocok bagi Anda yang menginginkan tampilan elegan dan fungsional dengan harga terjangkau.",
+        "images": "dobule-fullrgb.jpg"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "nama": "Custom Stoplamp & Repair Lazy – Request Motif",
+    "gambar": "Lazy.jpeg",
+    "deskripsi": "Layanan custom stoplamp premium dengan desain Lazy Eyes yang dapat disesuaikan sesuai request motif dan gaya. Cocok untuk berbagai jenis motor. Kami menerima permintaan desain khusus serta perbaikan stoplamp lazy lama. Harga bersifat estimasi dan dapat disesuaikan dengan jenis motor, tipe LED/RGB, serta motif yang dipilih. Silakan lakukan Pre-Order dan konsultasi dengan admin untuk informasi lebih lanjut.",
+    "harga": "Rp 450.000",
+    "link": "detail.html?id=2",
+     "variants": [
+      {
+        "name": "Lazy Led 1 Mode",
+        "price": "Rp 350.000",
+        "description": "Paket instalasi Lazy LED satu mode, cocok untuk tampilan clean namun tetap stylish. Pilihan ideal bagi Anda yang ingin menambahkan kesan elegan tanpa efek RGB. Harga dapat bervariasi tergantung tipe motor. Konsultasi tersedia melalui admin.",
+        "images": "Lazy-std.jpeg"
+      },
+      {
+        "name": "Lazy RGB Std/Belang",
+        "price": "Rp 500.000 - 650.000",
+        "description": "Paket custom Lazy RGB dengan pilihan mode standar maupun belang (multi-warna). Efek visual dinamis dan estetik, cocok untuk motor modifikasi. Harga yang tertera bersifat estimasi dan dapat berubah sesuai permintaan motif dan jenis RGB. Silakan konsultasikan terlebih dahulu dengan admin.",        "images": "Lazy-rgb.jpg"
+      },
+      {
+        "name": "Lazy  Slime Frame",
+        "price": "Rp 1.500.000",
+        "description": "Varian eksklusif dengan frame slime + RGB, menghadirkan tampilan motor yang unik dan futuristik. Dapat disesuaikan untuk berbagai jenis motor dan konfigurasi RGB. Harga tergantung pada merk, jenis motor, dan fitur tambahan. Pre-Order dan konsultasi sangat disarankan sebelum pemesanan.",        "images": "Lazy-slim.jpeg"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "nama": "Visor Cyber Glass",
+    "gambar": "visor-cyber.png",
+    "deskripsi": "Visor depan dengan efek neon glow untuk kesan cyberpunk.",
+    "harga": "Rp 275.000",
+    "link": "detail.html?id=3",
+    "images": ["visor-cyber.png", "visor-cyber-alt1.png", "visor-cyber-alt2.png"],
+    "variants": [
+      {
+        "name": "Transparan",
+        "price": "Rp 275.000",
+        "description": "Visor depan transparan dengan efek neon glow untuk kesan cyberpunk.",
+        "image": "visor-cyber.png"
+      },
+      {
+        "name": "Smoke",
+        "price": "Rp 320.000",
+        "description": "Visor depan smoke dengan efek neon glow untuk kesan cyberpunk.",
+        "image": "visor-cyber-variant1.png"
+      }
+    ]
+  }
+]

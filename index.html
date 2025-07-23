@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Biled Projector Store</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <!-- Tailwind CSS CDN: Memuat kerangka kerja CSS utilitas untuk styling responsif. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Styles for the hamburger icon animation */
+      #hamburger-button .line {
+        transition: all 0.3s ease;
+        transform-origin: center;
+      }
+
+      #hamburger-button.is-active .top {
+        transform: translateY(6px) rotate(45deg);
+      }
+
+      #hamburger-button.is-active .middle {
+        opacity: 0;
+      }
+
+      #hamburger-button.is-active .bottom {
+        transform: translateY(-6px) rotate(-45deg);
+      }
+      /* Mobile menu specific styles */
+      .mobile-menu {
+        transition: transform 0.3s ease-out;
+        transform: translateX(100%); /* Start off-screen */
+      }
+      .mobile-menu.active {
+        transform: translateX(0); /* Slide in */
+      }
+    </style>
+    <!-- Konfigurasi Tailwind untuk Font dan Warna Kustom:
+       Menyesuaikan tema Tailwind CSS dengan font 'Orbitron' dan palet warna spesifik. -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Orbitron", "sans-serif"], // Menggunakan font Orbitron sebagai font sans-serif default.
+            },
+            colors: {
+              primary: "#FF6347", // Warna primer untuk elemen utama dan penekanan.
+              electric: "#00FFFF", // Warna sekunder, sering digunakan untuk efek "electric" atau highlight.
+              dark: "#0F0F0F", // Warna latar belakang gelap utama.
+              soft: "#E0E0E0", // Warna teks yang lembut untuk kontras yang baik pada latar belakang gelap.
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- AOS Animation: Memuat library untuk animasi scroll-triggered. -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+    <!-- Lottie Animation: Memuat library untuk memutar animasi berbasis JSON. -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.6/lottie.min.js"></script>
+
+    <!-- Custom Styles: Menghubungkan ke stylesheet kustom untuk override atau styling tambahan. -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="bg-dark text-soft">
+    <!-- Placeholder untuk Header:
+       Elemen div ini akan diisi secara dinamis dengan konten dari header.html.
+       Ini memungkinkan navbar dimuat secara terpisah dan digunakan kembali di seluruh situs. -->
+    <div id="header-placeholder"></div>
+
+    <!-- 🔹 Hero Section:
+       Bagian utama halaman, dirancang untuk menarik perhatian pengguna.
+       Menggunakan flexbox untuk penataan konten vertikal di tengah layar. -->
+    <section
+      class="h-screen flex flex-col justify-center items-center text-center px-6 pt-20"
+    >
+      <!-- Lottie Animation Container:
+         Tempat animasi Lottie akan dirender. Ukuran diatur dengan Tailwind. -->
+      <div id="lottie-hero" class="w-60 h-60 mb-6"></div>
+      <!-- Judul Utama Hero Section:
+         Teks besar dan tebal dengan warna primer, menganimasikan saat muncul. -->
+      <h2
+        class="text-4xl md:text-5xl font-bold text-primary"
+        data-aos="fade-up"
+      >
+        Projector Store
+      </h2>
+      <!-- Deskripsi Hero Section:
+         Teks pendukung di bawah judul, dengan lebar maksimum dan penundaan animasi. -->
+      <p class="text-lg max-w-xl mt-4" data-aos="fade-up" data-aos-delay="200">
+        Pencahayaan maksimal dan menerangi hari harimu.
+      </p>
+      <!-- Tombol Call-to-Action:
+         Mengarahkan pengguna ke halaman produk, dengan styling menarik dan animasi. -->
+      <a
+        href="produk.html"
+        class="mt-6 px-6 py-3 bg-primary text-black font-bold rounded-xl hover:bg-electric transition-all"
+        data-aos="fade-up"
+        data-aos-delay="400"
+      >
+        Lihat Produk
+      </a>
+    </section>
+
+    <!-- 🔹 Testimoni Section:
+       Bagian untuk menampilkan dan mengirim testimoni pelanggan. -->
+    <section class="py-16 px-6 max-w-3xl mx-auto" id="testimoni">
+      <!-- Judul Testimoni:
+         Teks judul yang terpusat dengan warna primer dan animasi fade-up. -->
+      <h2
+        class="text-3xl font-bold text-center text-primary mb-8"
+        data-aos="fade-up"
+      >
+        Testimoni Pelanggan
+      </h2>
+
+      <!-- Formulir Testimoni:
+         Formulir untuk mengirim testimoni, dengan styling latar belakang putih, sudut membulat, dan bayangan. -->
+      <form
+        id="testimoni-form"
+        action="https://script.google.com/macros/s/AKfycbyK2xHqFJksK5_s6GCkVHBz_g7pXB8lsV5LupUfGbmJGGWFvwfL_Y4IiUS_LGmI6fl8UA/exec"
+        method="POST"
+        class="bg-white text-black rounded-xl p-6 shadow-lg space-y-4"
+      >
+        <!-- Input Nama: Bidang teks untuk nama pengguna. -->
+        <input
+          type="text"
+          name="nama"
+          placeholder="Nama Anda"
+          required
+          class="w-full border border-gray-300 px-4 py-2 rounded"
+        />
+
+        <!-- Textarea Pesan: Bidang teks multi-baris untuk pesan testimoni. -->
+        <textarea
+          name="pesan"
+          placeholder="Tulis testimoni kamu di sini..."
+          required
+          rows="5"
+          class="w-full border border-gray-300 px-4 py-2 rounded"
+        ></textarea>
+
+        <!-- Tombol Kirim: Tombol untuk mengirim formulir, dengan styling hover. -->
+        <button
+          type="submit"
+          class="bg-primary hover:bg-electric text-dark font-bold px-6 py-3 rounded transition"
+        >
+          Kirim Testimoni
+        </button>
+
+        <!-- Pesan Konfirmasi:
+           Elemen div untuk menampilkan pesan sukses setelah testimoni dikirim.
+           Awalnya tersembunyi. -->
+        <div id="msg" class="text-green-600 font-semibold mt-4 hidden">
+          ✅ Testimoni berhasil dikirim!
+        </div>
+      </form>
+    </section>
+
+    <!-- Script untuk Mengirim Testimoni ke Google Sheets:
+       Menangani pengiriman formulir menggunakan Fetch API tanpa memuat ulang halaman. -->
+    <script>
+      document
+        .getElementById("testimoni-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault(); // Mencegah perilaku default pengiriman formulir (reload halaman).
+          const form = e.target; // Mendapatkan elemen formulir yang memicu event.
+          const msg = document.getElementById("msg"); // Mendapatkan elemen pesan konfirmasi.
+
+          // Mengirim data formulir menggunakan Fetch API ke Google Apps Script.
+          fetch(form.action, {
+            method: "POST",
+            body: new FormData(form), // Menggunakan FormData untuk mengirim data formulir.
+          })
+            .then(() => {
+              msg.classList.remove("hidden"); // Menampilkan pesan sukses.
+              form.reset(); // Mengatur ulang formulir setelah pengiriman berhasil.
+            })
+            .catch(() => {
+              // Menggunakan modal kustom atau pesan di UI daripada alert()
+              // Karena alert() tidak disarankan dalam lingkungan Canvas.
+              const errorMessage = document.createElement("div");
+              errorMessage.className =
+                "fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-[9999]";
+              errorMessage.innerHTML = `
+          <div class="bg-white p-6 rounded-lg shadow-xl text-dark text-center">
+            <p class="text-lg font-semibold mb-4">❌ Gagal mengirim testimoni. Coba lagi.</p>
+            <button onclick="this.parentElement.parentElement.remove()" class="px-4 py-2 bg-primary text-dark rounded-md hover:bg-electric transition">Tutup</button>
+          </div>
+        `;
+              document.body.appendChild(errorMessage);
+              console.error("Gagal mengirim testimoni.");
+            });
+        });
+    </script>
+
+    <!-- Scripts Global:
+       Memuat library AOS dan menginisialisasi animasi Lottie. -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init(); // Menginisialisasi AOS untuk animasi scroll-triggered.
+
+      // Memuat animasi Lottie ke dalam container 'lottie-hero'.
+      lottie.loadAnimation({
+        container: document.getElementById("lottie-hero"), // Elemen DOM tempat animasi akan dirender.
+        renderer: "svg", // Renderer yang digunakan (SVG untuk kualitas vektor).
+        loop: true, // Animasi akan berulang tanpa henti.
+        autoplay: true, // Animasi akan mulai diputar secara otomatis.
+        path: "assets/lottie/spark-effect.json", // Jalur ke file animasi Lottie JSON Anda.
+      });
+
+      // Fungsi untuk menginisialisasi fungsionalitas hamburger menu
+      function initializeHamburgerMenu() {
+        const hamburgerButton = document.getElementById("hamburger-button");
+        const mobileMenuOverlay = document.getElementById(
+          "mobile-menu-overlay"
+        );
+        const closeMobileMenuButton =
+          document.getElementById("close-mobile-menu");
+
+        if (hamburgerButton && mobileMenuOverlay && closeMobileMenuButton) {
+          hamburgerButton.addEventListener("click", () => {
+            mobileMenuOverlay.classList.add("active");
+            hamburgerButton.classList.add("is-active"); // Tambahkan kelas untuk menganimasikan ikon hamburger
+          });
+
+          closeMobileMenuButton.addEventListener("click", () => {
+            mobileMenuOverlay.classList.remove("active");
+            hamburgerButton.classList.remove("is-active"); // Hapus kelas untuk mengembalikan ikon hamburger
+          });
+
+          // Tutup menu dan kembalikan ikon hamburger saat tautan diklik
+          mobileMenuOverlay.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+              mobileMenuOverlay.classList.remove("active");
+              hamburgerButton.classList.remove("is-active"); // Kembalikan ikon hamburger
+            });
+          });
+        }
+      }
+
+      // Fungsi untuk memuat header.html secara dinamis.
+      function loadHeader() {
+        fetch("header.html") // Mengambil konten header.html dari server.
+          .then((response) => response.text()) // Mengurai respons sebagai teks HTML.
+          .then((html) => {
+            document.getElementById("header-placeholder").innerHTML = html; // Menyisipkan HTML ke placeholder.
+            initializeHamburgerMenu(); // Panggil fungsi inisialisasi setelah header dimuat
+          })
+          .catch((error) => {
+            console.error("Error loading header:", error); // Menangani error jika gagal memuat header.
+            // Tampilkan pesan error di UI jika header gagal dimuat
+            const headerPlaceholder =
+              document.getElementById("header-placeholder");
+            if (headerPlaceholder) {
+              headerPlaceholder.innerHTML =
+                '<p class="text-center text-red-500">Gagal memuat navigasi.</p>';
+            }
+          });
+      }
+
+      // Memuat header ketika DOM sudah sepenuhnya dimuat.
+      document.addEventListener("DOMContentLoaded", loadHeader);
+    </script>
+  </body>
+</html>

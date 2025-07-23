@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Produk |⚡ WARLIGHT Store</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Konfigurasi Tailwind untuk font Inter dan warna kustom -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Orbitron", "sans-serif"], // Menggunakan Orbitron sesuai tema Anda
+            },
+            colors: {
+              primary: "#FF6347", // Warna primer dari tema Anda
+              electric: "#00FFFF", // Warna electric dari tema Anda
+              dark: "#0F0F0F", // Background gelap dari tema Anda
+              soft: "#E0E0E0", // Warna teks dari tema Anda
+            },
+          },
+        },
+      };
+    </script>
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <!-- Font Orbitron (sudah ada di kode Anda) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-dark">
+    <!-- Placeholder untuk Header:
+       Elemen div ini akan diisi secara dinamis dengan konten dari header.html.
+       Ini memungkinkan navbar dimuat secara terpisah dan digunakan kembali di seluruh situs. -->
+    <div id="header-placeholder"></div>
+
+    <!-- Detail Produk -->
+    <main class="pt-32 px-6 max-w-6xl mx-auto min-h-screen">
+      <!-- Tombol Back -->
+      <div
+        id="btn-back-wrapper"
+        class="fixed top-20 left-5 z-50 transition-all duration-500 ease-in-out opacity-100 translate-x-0"
+      >
+        <a
+          href="index.html"
+          class="group relative inline-flex items-center gap-1 px-4 py-1 rounded-xl text-dark font-bold bg-electric hover:bg-primary transition-all duration-300 overflow-hidden shadow-xl hover:shadow-primary"
+        >
+          <span
+            class="absolute inset-0 w-full h-full bg-electric opacity-10 group-hover:opacity-0 transition-all duration-300 rounded-xl"
+          ></span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 group-hover:-translate-x-1 transition-all duration-300"
+            fill="none"
+            viewBox="0 0 19 19"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+          <span class="relative z-10 group-hover:text-white transition"
+            >Back</span
+          >
+        </a>
+      </div>
+      <div
+        id="detail-container"
+        class="bg-white bg-opacity-5 rounded-xl p-6 md:p-8 border border-white/10 shadow-lg flex flex-col md:flex-row gap-8"
+        data-aos="fade-up"
+      >
+        <!-- Konten akan dimuat di sini oleh JavaScript -->
+        <p class="text-center text-red-500 w-full">Memuat detail produk...</p>
+      </div>
+    </main>
+    <!-- Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+
+      // Fungsi untuk menginisialisasi fungsionalitas hamburger menu
+      function initializeHamburgerMenu() {
+        const hamburgerButton = document.getElementById("hamburger-button");
+        const mobileMenuOverlay = document.getElementById(
+          "mobile-menu-overlay"
+        );
+        const closeMobileMenuButton =
+          document.getElementById("close-mobile-menu");
+
+        if (hamburgerButton && mobileMenuOverlay && closeMobileMenuButton) {
+          hamburgerButton.addEventListener("click", () => {
+            mobileMenuOverlay.classList.add("active");
+            hamburgerButton.classList.add("is-active"); // Tambahkan kelas untuk menganimasikan ikon hamburger
+          });
+
+          closeMobileMenuButton.addEventListener("click", () => {
+            mobileMenuOverlay.classList.remove("active");
+            hamburgerButton.classList.remove("is-active"); // Hapus kelas untuk mengembalikan ikon hamburger
+          });
+
+          // Tutup menu dan kembalikan ikon hamburger saat tautan diklik
+          mobileMenuOverlay.querySelectorAll("a").forEach((link) => {
+            link.addEventListener("click", () => {
+              mobileMenuOverlay.classList.remove("active");
+              hamburgerButton.classList.remove("is-active"); // Kembalikan ikon hamburger
+            });
+          });
+        }
+      }
+
+      // Fungsi untuk memuat header.html secara dinamis.
+      function loadHeader() {
+        fetch("header.html") // Mengambil konten header.html dari server.
+          .then((response) => response.text()) // Mengurai respons sebagai teks HTML.
+          .then((html) => {
+            document.getElementById("header-placeholder").innerHTML = html; // Menyisipkan HTML ke placeholder.
+            initializeHamburgerMenu(); // Panggil fungsi inisialisasi setelah header dimuat
+          })
+          .catch((error) => {
+            console.error("Error loading header:", error); // Menangani error jika gagal memuat header.
+            // Tampilkan pesan error di UI jika header gagal dimuat
+            const headerPlaceholder =
+              document.getElementById("header-placeholder");
+            if (headerPlaceholder) {
+              headerPlaceholder.innerHTML =
+                '<p class="text-center text-red-500">Gagal memuat navigasi.</p>';
+            }
+          });
+      }
+
+      // Memuat header ketika DOM sudah sepenuhnya dimuat.
+      document.addEventListener("DOMContentLoaded", loadHeader);
+
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      const detailContainer = document.getElementById("detail-container");
+
+      let currentImageIndex = 0; // To keep track of the current image in the slider
+      let currentProduct = null; // To store the fetched product data
+      let isVariantImageActive = false; // Flag to check if a variant-specific image is currently displayed
+
+      // Function to update the main product image and highlight thumbnail
+      function showImage(index) {
+        if (
+          !currentProduct ||
+          !currentProduct.images ||
+          currentProduct.images.length === 0
+        ) {
+          return; // No images to display
+        }
+
+        isVariantImageActive = false; // When using slider/thumbnails, variant image is not active
+        currentImageIndex =
+          (index + currentProduct.images.length) % currentProduct.images.length;
+
+        const mainImage = document.getElementById("main-product-image");
+        if (mainImage) {
+          mainImage.src = `assets/images/${currentProduct.images[currentImageIndex]}`;
+        }
+
+        // Highlight the active thumbnail
+        document.querySelectorAll(".thumbnail-image").forEach((img, idx) => {
+          if (idx === currentImageIndex) {
+            img.classList.add("border-primary");
+            img.classList.remove("border-transparent");
+          } else {
+            img.classList.remove("border-primary");
+            img.classList.add("border-transparent");
+          }
+        });
+
+        // Show slider buttons if there are multiple images in the main gallery
+        const prevButton = document.getElementById("prev-image");
+        const nextButton = document.getElementById("next-image");
+        if (currentProduct.images.length > 1) {
+          prevButton?.classList.remove("hidden");
+          nextButton?.classList.remove("hidden");
+        } else {
+          prevButton?.classList.add("hidden");
+          nextButton?.classList.add("hidden");
+        }
+      }
+
+      // Function to display a specific image (e.g., from a variant)
+      function displaySpecificImage(imageFileName) {
+        const mainImage = document.getElementById("main-product-image");
+        if (mainImage && imageFileName) {
+          mainImage.src = `assets/images/${imageFileName}`;
+          isVariantImageActive = true; // Set flag
+          // Remove highlight from all thumbnails as a variant image is active
+          document
+            .querySelectorAll(".thumbnail-image")
+            .forEach((img) => img.classList.remove("border-primary"));
+        }
+        // Hide slider buttons when a variant-specific image is active
+        document.getElementById("prev-image")?.classList.add("hidden");
+        document.getElementById("next-image")?.classList.add("hidden");
+      }
+
+      // Mengambil data dari file produk.json
+      fetch("data/produk.json")
+        .then((res) => res.json())
+        .then((produkData) => {
+          currentProduct = produkData.find((item) => item.id == id);
+          if (!currentProduct) {
+            detailContainer.innerHTML =
+              '<p class="text-center text-red-500 w-full">Produk tidak ditemukan</p>';
+            return;
+          }
+
+          // Default ke varian pertama jika tersedia
+          const defaultVariant =
+            currentProduct.variants && currentProduct.variants.length > 0
+              ? currentProduct.variants[0]
+              : null;
+          let currentPrice = defaultVariant
+            ? defaultVariant.price
+            : currentProduct.harga;
+          let currentDescription = defaultVariant
+            ? defaultVariant.description
+            : currentProduct.deskripsi;
+          let currentVariantName = defaultVariant ? defaultVariant.name : "N/A";
+          let initialImageToDisplay =
+            defaultVariant && defaultVariant.images
+              ? defaultVariant.images // Menggunakan 'images'
+              : currentProduct.images && currentProduct.images.length > 0
+              ? currentProduct.images[0]
+              : currentProduct.gambar;
+
+          const generateProductHTML = (
+            product,
+            price,
+            description,
+            variantName,
+            initialImage
+          ) => {
+            return `
+                <!-- Product Image Gallery -->
+                <div class="w-full md:w-1/2 flex flex-col items-center relative">
+                    <img id="main-product-image" src="assets/images/${initialImage}" alt="${
+              product.nama
+            }" class="w-full h-auto max-h-[400px] object-contain rounded-lg shadow-md mb-4 border border-white/20">
+                    
+                    <!-- Slider Navigation -->
+                    ${
+                      currentProduct.images && currentProduct.images.length > 1
+                        ? `
+                        <button class="slider-button left ${
+                          defaultVariant && defaultVariant.images
+                            ? "hidden"
+                            : ""
+                        }" id="prev-image">&#10094;</button>
+                        <button class="slider-button right ${
+                          defaultVariant && defaultVariant.images
+                            ? "hidden"
+                            : ""
+                        }" id="next-image">&#10095;</button>
+                    `
+                        : ""
+                    }
+
+                        ${
+                          currentProduct.images &&
+                          currentProduct.images.length > 0
+                            ? currentProduct.images
+                                .map(
+                                  (img, index) => `
+                            <img src="assets/images/${img}" 
+                                 alt="${product.nama} - ${index + 1}" 
+                                 class="w-20 h-20 object-cover rounded-md cursor-pointer border-2 border-transparent hover:border-primary transition-all thumbnail-image"
+                                 data-image-index="${index}" data-image-name="${img}">
+                        `
+                                )
+                                .join("")
+                            : ""
+                        }
+                    </div>
+                </div>
+
+                <!-- Product Details -->
+                <div class="w-full md:w-1/2 flex flex-col justify-between">
+                    <div>
+                        <h2 class="text-3xl text-primary font-bold mb-2">${
+                          product.nama
+                        }</h2>
+                        <h3 id="variant-name" class="text-lg text-electric font-semibold mb-1">${variantName}</h3>
+
+                        <p class="text-sm text-soft mb-4" id="product-description">${description}</p>
+                        
+                        <div class="mb-4">
+                            <h4 class="text-electric text-2xl font-semibold">Harga: <span id="product-price">${price}</span></h4>
+                        </div>
+
+                        ${
+                          currentProduct.variants &&
+                          currentProduct.variants.length > 0
+                            ? `
+                            <div class="mb-6">
+                                <h5 class="text-lg font-semibold mb-2">Pilih Varian:</h5>
+                                <div id="variant-options" class="flex flex-wrap gap-2">
+                                    ${currentProduct.variants
+                                      .map(
+                                        (variant, index) => `
+                                        <button 
+                                            class="variant-button px-4 py-2 rounded-full border border-primary text-sm font-medium 
+                                                   ${
+                                                     variant.name ===
+                                                     currentVariantName
+                                                       ? "bg-primary text-dark"
+                                                       : "bg-transparent text-primary hover:bg-primary/20"
+                                                   } transition-all"
+                                            data-variant-index="${index}">
+                                            ${variant.name}
+                                        </button>
+                                    `
+                                      )
+                                      .join("")}
+                                </div>
+                            </div>
+                        `
+                            : ""
+                        }
+                    </div>
+
+                    <a href="preorder.html?produk=${encodeURIComponent(
+                      product.nama
+                    )}&varian=${encodeURIComponent(
+              variantName
+            )}&harga=${encodeURIComponent(price)}" 
+                       id="preorder-button"
+                       class="inline-block w-full text-center px-6 py-3 bg-primary text-dark font-semibold rounded-full hover:bg-electric transition-all mt-4 md:mt-0">
+                        Pre-Order Sekarang
+                    </a>
+                </div>
+            `;
+          };
+
+          detailContainer.innerHTML = generateProductHTML(
+            currentProduct,
+            currentPrice,
+            currentDescription,
+            currentVariantName,
+            initialImageToDisplay
+          );
+
+          // Tambahkan event listener untuk thumbnail gambar
+          document.querySelectorAll(".thumbnail-image").forEach((thumbnail) => {
+            thumbnail.addEventListener("click", function () {
+              const imageIndex = parseInt(this.dataset.imageIndex); // Perbaikan: dataset.image-index -> dataset.imageIndex
+              showImage(imageIndex); // Gunakan showImage untuk menangani penyorotan dan status slider
+            });
+          });
+
+          // Tambahkan event listener untuk navigasi slider
+          const prevButton = document.getElementById("prev-image");
+          const nextButton = document.getElementById("next-image");
+
+          if (prevButton) {
+            prevButton.addEventListener("click", () => {
+              showImage(currentImageIndex - 1);
+            });
+          }
+          if (nextButton) {
+            nextButton.addEventListener("click", () => {
+              showImage(currentImageIndex + 1);
+            });
+          }
+
+          // Tambahkan event listener untuk tombol varian
+          document.querySelectorAll(".variant-button").forEach((button) => {
+            button.addEventListener("click", function () {
+              const variantIndex = parseInt(this.dataset.variantIndex);
+              const selectedVariant = currentProduct.variants[variantIndex];
+
+              // Perbarui harga, deskripsi, dan NAMA VARIAN
+              document.getElementById("product-price").textContent =
+                selectedVariant.price;
+              document.getElementById("product-description").textContent =
+                selectedVariant.description;
+              document.getElementById("variant-name").textContent =
+                selectedVariant.name;
+
+              // Perbarui nama varian saat ini untuk link pre-order
+              currentVariantName = selectedVariant.name;
+              currentPrice = selectedVariant.price;
+
+              // Perbarui gambar utama berdasarkan varian yang dipilih
+              if (selectedVariant.images) {
+                // Menggunakan 'images' karena di JSON Anda menggunakan 'images' di dalam varian
+                displaySpecificImage(selectedVariant.images); // Menggunakan 'images'
+              } else {
+                // Jika varian tidak memiliki gambar spesifik, kembali ke gambar pertama dari galeri utama
+                showImage(0); // Tampilkan gambar produk utama pertama
+              }
+
+              // Perbarui link tombol pre-order
+              const preorderButton = document.getElementById("preorder-button");
+              preorderButton.href = `preorder.html?produk=${encodeURIComponent(
+                currentProduct.nama
+              )}&varian=${encodeURIComponent(
+                currentVariantName
+              )}&harga=${encodeURIComponent(currentPrice)}`;
+
+              // Sorot tombol varian yang dipilih
+              document.querySelectorAll(".variant-button").forEach((btn) => {
+                btn.classList.remove("bg-primary", "text-dark");
+                btn.classList.add(
+                  "bg-transparent",
+                  "text-primary",
+                  "hover:bg-primary/20"
+                );
+              });
+              this.classList.remove(
+                "bg-transparent",
+                "text-primary",
+                "hover:bg-primary/20"
+              );
+              this.classList.add("bg-primary", "text-dark");
+            });
+          });
+
+          // Pengaturan status awal
+          if (defaultVariant && defaultVariant.images) {
+            // Menggunakan 'images'
+            displaySpecificImage(defaultVariant.images); // Menggunakan 'images'
+          } else if (
+            currentProduct.images &&
+            currentProduct.images.length > 0
+          ) {
+            showImage(0); // Tampilkan gambar pertama dari galeri utama
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching product data:", error);
+          detailContainer.innerHTML =
+            '<p class="text-center text-red-500 w-full">Gagal memuat detail produk. Silakan coba lagi nanti.</p>';
+        });
+      // Scrolling Buton Back
+      const btnBack = document.getElementById("btn-back-wrapper");
+      let scrollTimeout;
+
+      window.addEventListener("scroll", () => {
+        btnBack.classList.remove("opacity-100", "translate-x-0");
+        btnBack.classList.add("opacity-0", "-translate-x-10");
+
+        // Reset timeout jika scroll terus-menerus
+        clearTimeout(scrollTimeout);
+
+        // Setelah 1.2 detik tanpa scroll: fade in & slide-right
+        scrollTimeout = setTimeout(() => {
+          btnBack.classList.remove("opacity-0", "-translate-x-10");
+          btnBack.classList.add("opacity-100", "translate-x-0");
+        }, 600);
+      });
+    </script>
+  </body>
+</html>
