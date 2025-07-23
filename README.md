@@ -25,3 +25,6 @@ Website interaktif bertema **futuristik neon-glow** untuk katalog produk **Proje
 
 1. **produk.html** menampilkan daftar produk dari `produk.json`
 2. Saat user klik tombol **Lihat Detail**, diarahkan ke:
+=======
+# warlighstore
+>>>>>>> d6748e62931b89f0d9be1efa1ff4cde3e8f987a2
