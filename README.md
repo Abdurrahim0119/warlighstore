@@ -3,6 +3,12 @@
 Website interaktif bertema **futuristik neon-glow** untuk katalog produk **Projector, Stoplamp, dan Projector motor lainnya**. Dibuat dengan HTML, Tailwind CSS, JavaScript, AOS, dan JSON, memberikan pengalaman interaktif dan profesional seperti Shopee saat memilih paket produk.
 
 ---
+# UPDATE PUSH GITHUB
+git add .
+git commit -m "index.html" exmaple
+git push origin main
+
+---
 
 ## 📸 Preview UI
 ![Preview Tampilan Website](./assets/img/screenshot-preview.jpg)
